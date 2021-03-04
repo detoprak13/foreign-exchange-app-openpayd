@@ -7,8 +7,6 @@ import java.util.Currency;
 
 @Entity(name="transactions")
 public class Transaction {
-	@Id
-	@GeneratedValue
 	private Long id;
 	private Currency sourceCurrency;
 	private Currency targetCurrency;

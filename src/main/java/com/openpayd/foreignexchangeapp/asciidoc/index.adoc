@@ -1,0 +1,12 @@
+= Foreign Exchange App Documentation
+
+== Exchange Rate
+
+.request
+include::{snippets}/exchangeRate/http-request.adoc[]
+
+.response
+include::{snippets}/exchangeRate/http-response.adoc[]
+
+.response error
+include::{snippets}/exchangeRate-invalid-currency/http-response.adoc[]

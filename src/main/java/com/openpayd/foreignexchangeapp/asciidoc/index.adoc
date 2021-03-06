@@ -8,5 +8,35 @@ include::{snippets}/exchangeRate/http-request.adoc[]
 .response
 include::{snippets}/exchangeRate/http-response.adoc[]
 
-.response error
+.response error invalid_currency
 include::{snippets}/exchangeRate-invalid-currency/http-response.adoc[]
+
+== Get Transactions
+.request
+include::{snippets}/all-transactions/http-request.adoc[]
+
+.response valid
+include::{snippets}/all-transactions/http-response.adoc[]
+
+.response error invalid date
+include::{snippets}/all-transactions-invalid-date/http-response.adoc[]
+
+.response error invalid pageNo
+include::{snippets}/all-transactions-invalid-pageNo/http-response.adoc[]
+
+.response error invalid-sort-direction
+include::{snippets}/all-transactions-invalid-sort-direction/http-response.adoc[]
+
+.response error invalid_sort_param
+include::{snippets}/all-transactions-invalid-sort-param/http-response.adoc[]
+
+== Exchange
+
+.request
+include::{snippets}/exchange_valid/http-request.adoc[]
+
+.request invalid_currency
+include::{snippets}/exchange_invalid_currency/http-response.adoc[]
+
+.response invalid_amount
+include::{snippets}/exchange_invalid_amount/http-response.adoc[]

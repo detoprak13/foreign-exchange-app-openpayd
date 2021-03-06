@@ -35,7 +35,10 @@ include::{snippets}/all-transactions-invalid-sort-param/http-response.adoc[]
 .request
 include::{snippets}/exchange_valid/http-request.adoc[]
 
-.request invalid_currency
+.response
+include::{snippets}/exchange_valid/http-response.adoc[]
+
+.response invalid_currency
 include::{snippets}/exchange_invalid_currency/http-response.adoc[]
 
 .response invalid_amount

@@ -11,7 +11,7 @@ public class TransactionSortParamEnumConverter implements Converter<String, Tran
 		try {
 			return TransactionSortParam.valueOf(source.toUpperCase());
 		} catch (Exception e) {
-			throw new OpenPaydException(source + " is not a valid type of TransactionSortParam", ExceptionType.BAD_REQUEST);
+			throw new OpenPaydException(source + " is not a valid type of TransactionSortParam", ExceptionType.INVALID_SORT_PARAM);
 		}
 	}
 }

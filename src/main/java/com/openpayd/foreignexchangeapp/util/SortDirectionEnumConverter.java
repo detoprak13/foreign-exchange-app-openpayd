@@ -11,7 +11,7 @@ public class SortDirectionEnumConverter implements Converter<String, Sort.Direct
 		try {
 			return Sort.Direction.valueOf(source.toUpperCase());
 		} catch (Exception e) {
-			throw new OpenPaydException(source + " is not a valid type of Sort.Direction", ExceptionType.INVALID_ENUM);
+			throw new OpenPaydException(source + " is not a valid type of Sort.Direction", ExceptionType.INVALID_SORT_DIRECTION);
 		}
 	}
 }

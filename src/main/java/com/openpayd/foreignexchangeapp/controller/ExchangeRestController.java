@@ -7,8 +7,10 @@ import com.openpayd.foreignexchangeapp.dto.response.GetTransactionResponse;
 import com.openpayd.foreignexchangeapp.dto.response.PagedResponse;
 import com.openpayd.foreignexchangeapp.entity.Transaction;
 import com.openpayd.foreignexchangeapp.enums.TransactionSortParam;
+import com.openpayd.foreignexchangeapp.errorHandling.enums.ExceptionType;
 import com.openpayd.foreignexchangeapp.errorHandling.exception.InvalidCurrencyException;
 import com.openpayd.foreignexchangeapp.errorHandling.exception.InvalidPageException;
+import com.openpayd.foreignexchangeapp.errorHandling.exception.OpenPaydException;
 import com.openpayd.foreignexchangeapp.service.ExchangeService;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -32,19 +34,7 @@ public class ExchangeRestController {
 
 	@GetMapping("/rate")
 	public GetExchangeRateResponse getExchangeRate(@RequestParam("sourceCurrencyCode") String sourceCurrencyCode, @RequestParam("targetCurrencyCode") String targetCurrencyCode) {
-		Currency sourceCurrency;
-		Currency targetCurrency;
-		try {
-			sourceCurrency = Currency.getInstance(sourceCurrencyCode);
-		} catch (Exception e) {
-			throw new InvalidCurrencyException("invalid currency code: " + sourceCurrencyCode);
-		}
-		try {
-			targetCurrency = Currency.getInstance(targetCurrencyCode);
-		} catch (Exception e) {
-			throw new InvalidCurrencyException("invalid currency code: " + targetCurrencyCode);
-		}
-		BigDecimal rate = exchangeService.getExchangeRate(sourceCurrency, targetCurrency);
+		BigDecimal rate = exchangeService.getExchangeRate(getCurrencyFromCurrencyCode(sourceCurrencyCode), getCurrencyFromCurrencyCode(targetCurrencyCode));
 		GetExchangeRateResponse getExchangeRateResponse = new GetExchangeRateResponse();
 		getExchangeRateResponse.setRate(rate);
 		return getExchangeRateResponse;
@@ -52,8 +42,11 @@ public class ExchangeRestController {
 
 	@PostMapping
 	public ExchangeTransactionResponse exchange(@RequestBody ExchangeTransactionRequest exchangeTransactionRequest) {
-		Transaction transaction = exchangeService.exchange(Currency.getInstance(exchangeTransactionRequest.getSourceCurrencyCode()),
-				Currency.getInstance(exchangeTransactionRequest.getTargetCurrencyCode()), exchangeTransactionRequest.getAmount());
+		if (exchangeTransactionRequest.getAmount().compareTo(new BigDecimal(1)) < 0) {
+			throw new OpenPaydException("Amount cannot be less than 1.", ExceptionType.INVALID_EXCHANGE_AMOUNT);
+		}
+		Transaction transaction = exchangeService.exchange(getCurrencyFromCurrencyCode(exchangeTransactionRequest.getSourceCurrencyCode()),
+				getCurrencyFromCurrencyCode(exchangeTransactionRequest.getTargetCurrencyCode()), exchangeTransactionRequest.getAmount());
 
 		ExchangeTransactionResponse exchangeTransactionResponse = new ExchangeTransactionResponse();
 		exchangeTransactionResponse.setId(transaction.getId());
@@ -104,5 +97,15 @@ public class ExchangeRestController {
 		}
 		response.setHasNext(transactionsSlice.hasNext());
 		return response;
+	}
+
+	private Currency getCurrencyFromCurrencyCode(String currencyCode) {
+		Currency currency;
+		try {
+			currency = Currency.getInstance(currencyCode);
+		} catch (Exception e) {
+			throw new InvalidCurrencyException("invalid currency code: " + currencyCode);
+		}
+		return currency;
 	}
 }

@@ -1,0 +1,10 @@
+= Foreign Exchange App
+:doctype: book
+
+=== Run Commands
+```bash
+mvn clean install
+java -jar target/foreign-exchange-app-0.0.1-SNAPSHOT.jar
+```
+
+After running, you can find Api Documentation here: http://localhost:8080/docs/api-guide.html[*Foreign Exchange App Api Documentation*]

@@ -72,7 +72,7 @@
 							<attributes>
 								<snippets>${snippetsDirectory}</snippets>
 							</attributes>
-							<sourceDirectory>src/</sourceDirectory>
+							<sourceDirectory>src/docs/asciidocs</sourceDirectory>
 							<outputDirectory>${project.build.outputDirectory}/static/docs</outputDirectory>
 						</configuration>
 					</execution>
